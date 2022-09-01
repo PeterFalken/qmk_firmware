@@ -130,6 +130,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
+
 // Process custom keycodes
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -145,43 +146,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
+
 bool muse_mode = false;
 uint8_t last_muse_note = 0;
 uint16_t muse_counter = 0;
 uint8_t muse_offset = 70;
 uint16_t muse_tempo = 50;
 
-bool dip_switch_update_user(uint8_t index, bool active) {
-    switch (index) {
-        case 0: {
-#ifdef AUDIO_ENABLE
-            static bool play_sound = false;
-#endif
-            if (active) {
-#ifdef AUDIO_ENABLE
-                if (play_sound) { PLAY_SONG(plover_song); }
-#endif
-                layer_on(_ADJUST);
-            } else {
-#ifdef AUDIO_ENABLE
-                if (play_sound) { PLAY_SONG(plover_gb_song); }
-#endif
-                layer_off(_ADJUST);
-            }
-#ifdef AUDIO_ENABLE
-            play_sound = true;
-#endif
-            break;
-        }
-        case 1:
-            if (active) {
-                muse_mode = true;
-            } else {
-                muse_mode = false;
-            }
-    }
-    return true;
-}
+// bool dip_switch_update_user(uint8_t index, bool active) {
+//     switch (index) {
+//         case 0:
+//             if (active) {
+//                 layer_on(_ADJUST);
+//             } else {
+//                 layer_off(_ADJUST);
+//             }
+//             break;
+//         case 1:
+//             if (active) {
+//                 muse_mode = true;
+//             } else {
+//                 muse_mode = false;
+//             }
+//     }
+//     return true;
+// }
 
 void matrix_scan_user(void) {
 #ifdef AUDIO_ENABLE
@@ -203,6 +192,7 @@ void matrix_scan_user(void) {
     }
 #endif
 }
+
 
 bool music_mask_user(uint16_t keycode) {
   switch (keycode) {
